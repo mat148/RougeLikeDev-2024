@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://qh02nsxpnseo"]
+
+[ext_resource type="Texture2D" uid="uid://jxjs5vtypvs2" path="res://assets/Characters/Goblin/spr_idle_strip9.png" id="1_7f7gr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08xkb"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(0, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njj1f"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(96, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auv7b"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(192, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cv75d"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(288, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fk7o0"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(384, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y67iu"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(480, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bwjs"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(576, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dg4i"]
+atlas = ExtResource("1_7f7gr")
+region = Rect2(672, 0, 96, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08xkb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njj1f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auv7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cv75d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fk7o0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y67iu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bwjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dg4i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 12.0
+}]

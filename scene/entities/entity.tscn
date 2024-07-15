@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmbncalojb2fa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ony2l"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4uva7"]
+bg_color = Color(0.968627, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6cyuf"]
+size = Vector2(16, 16)
+
+[node name="Entity" type="Node2D"]
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -8.0
+offset_top = -15.0
+offset_right = 8.0
+offset_bottom = -11.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_ony2l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4uva7")
+max_value = 10.0
+step = 1.0
+value = 8.0
+show_percentage = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+animation = &""
+autoplay = "idle"
+
+[node name="MoveCheckRayCast2D" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+target_position = Vector2(2.08165e-12, 2.08165e-12)
+collide_with_areas = true
+
+[node name="LookForPlayerRayCast2D" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+target_position = Vector2(50, 2.08165e-12)
+collide_with_areas = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_6cyuf")

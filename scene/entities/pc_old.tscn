@@ -1,0 +1,73 @@
+[gd_scene load_steps=13 format=3 uid="uid://clnf86k0gqe6u"]
+
+[ext_resource type="Script" path="res://scene/entities/pc.gd" id="1_rsyq3"]
+[ext_resource type="Texture2D" uid="uid://md0mt4l40bog" path="res://assets/Characters/Human/IDLE/base_idle_strip1.png" id="2_4gvaf"]
+[ext_resource type="Texture2D" uid="uid://daivtbnupsj7" path="res://assets/Characters/Human/IDLE/base_idle_strip2.png" id="3_5lva3"]
+[ext_resource type="Texture2D" uid="uid://bwrd77dpva1w6" path="res://assets/Characters/Human/IDLE/base_idle_strip3.png" id="4_mb5l8"]
+[ext_resource type="Texture2D" uid="uid://pu15g2lpkjjc" path="res://assets/Characters/Human/IDLE/base_idle_strip4.png" id="5_kmjy7"]
+[ext_resource type="Texture2D" uid="uid://qfqqyfawc8qv" path="res://assets/Characters/Human/IDLE/base_idle_strip5.png" id="6_ktwfu"]
+[ext_resource type="Texture2D" uid="uid://blsgti6mriqj5" path="res://assets/Characters/Human/IDLE/base_idle_strip6.png" id="7_38tm0"]
+[ext_resource type="Texture2D" uid="uid://bmcn6wqu3moig" path="res://assets/Characters/Human/IDLE/base_idle_strip7.png" id="8_eyaeb"]
+[ext_resource type="Texture2D" uid="uid://bf8unwbx187l3" path="res://assets/Characters/Human/IDLE/base_idle_strip8.png" id="9_aj2uq"]
+[ext_resource type="Texture2D" uid="uid://3meb6e46wpw3" path="res://assets/Characters/Human/IDLE/base_idle_strip9.png" id="10_lpsu5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b0dqo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4gvaf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5lva3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_mb5l8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kmjy7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ktwfu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_38tm0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_eyaeb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_aj2uq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_lpsu5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6cyuf"]
+size = Vector2(16, 16)
+
+[node name="Pc" type="Node2D"]
+script = ExtResource("1_rsyq3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_b0dqo")
+animation = &"idle"
+autoplay = "idle"
+frame = 6
+frame_progress = 0.154981
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+target_position = Vector2(2.08165e-12, 2.08165e-12)
+collide_with_areas = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_6cyuf")

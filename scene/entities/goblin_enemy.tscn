@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://j6fmfdn8fsma"]
+
+[ext_resource type="PackedScene" uid="uid://bmbncalojb2fa" path="res://scene/entities/entity.tscn" id="1_2ekfs"]
+[ext_resource type="Script" path="res://library/entity.gd" id="2_dvi3r"]
+[ext_resource type="SpriteFrames" uid="uid://qh02nsxpnseo" path="res://animations/goblin_enemy_animations.tres" id="2_ejlvv"]
+
+[node name="Goblin" instance=ExtResource("1_2ekfs")]
+script = ExtResource("2_dvi3r")
+entity_type = 1
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = ExtResource("2_ejlvv")
+animation = &"idle"

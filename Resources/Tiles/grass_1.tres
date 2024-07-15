@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Tile" load_steps=2 format=3 uid="uid://ddi2yjbby6b70"]
+
+[ext_resource type="Script" path="res://library/tile.gd" id="1_20dk7"]
+
+[resource]
+script = ExtResource("1_20dk7")
+tile_cordinates = Vector2i(1, 1)
+tile_blocking = false
+tile_name = "grass_1"

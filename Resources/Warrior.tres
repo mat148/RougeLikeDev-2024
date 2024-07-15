@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Class" load_steps=2 format=3 uid="uid://p4m6gu30ob2n"]
+
+[ext_resource type="Script" path="res://library/class.gd" id="1_p05n7"]
+
+[resource]
+script = ExtResource("1_p05n7")
+entity_class_name = 0
+entity_class_base_health = 3
+entity_class_attack_style = 0
+entity_class_base_attack = 1
