@@ -46,6 +46,8 @@ func _setup_tiles() -> void:
 	_create_world()
 
 func _create_world() -> void:
+	var player_in_room
+	
 	for _try_room in max_rooms:
 		var room_width: int = _rng.randi_range(room_min_size, room_max_size)
 		var room_height: int = _rng.randi_range(room_min_size, room_max_size)
@@ -66,17 +68,20 @@ func _create_world() -> void:
 		_carve_room(new_room)
 		
 		if rooms.is_empty():
+			player_in_room = new_room
 			Global.player.position = Global.get_position_from_coord(new_room.get_center())
 		else:
 			_tunnel_between(rooms.back().get_center(), new_room.get_center())
 		
-		#_place_entities(new_room)
+		if new_room != player_in_room:
+			_place_entities(new_room)
 		
 		rooms.append(new_room)
 	
+	update_entities_ray_collision_exception()
 	Global.schedule_manager.next_entity_in_turn_order()
 	
-	_place_entities(rooms[3])
+	#_place_entities(rooms[3])
 	#print(Global.get_coord_from_sprite(Global.player))
 	#var enemy = Global.schedule_manager.entities_list[Global.schedule_manager.entities_list.keys()[1]]
 	##print(Global.get_coord_from_sprite(enemy))
@@ -177,6 +182,9 @@ func find_path(position_a: Vector2, position_b: Vector2) -> Array[Vector2i]:
 	
 	return path
 
+func update_entities_ray_collision_exception() -> void:
+	for current_entity in Global.schedule_manager.entities_list.values():
+		current_entity.update_entity_ray_collision_exception()
 
 #print(Global.get_coord_from_sprite(Global.player))
 #var enemy = Global.schedule_manager.entities_list[Global.schedule_manager.entities_list.keys()[1]]

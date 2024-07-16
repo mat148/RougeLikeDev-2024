@@ -128,9 +128,11 @@ func _check_direction(direction: Vector2) -> bool:
 		if entity_collider.name != 'TileMap':
 			var entity_collider_parent = entity_collider.get_parent()
 			#print(entity_collider_parent)
-			const CustomClass = preload("res://library/entity.gd")
-			if entity_collider_parent is CustomClass:
-				entity_collider_parent._update_health(-entity_attack)
+			#const CustomClass = preload("res://library/entity.gd")
+			if self.entity_type == Entity.entity_types.ENEMY && entity_collider_parent.entity_type == Entity.entity_types.ENEMY:
+				return false
+			
+			entity_collider_parent._update_health(-entity_attack)
 		
 		return false
 
@@ -142,7 +144,8 @@ func _turn_ended() -> void:
 	
 	if self.name != 'Player' && entity_health <= 0:
 		#Global.schedule_manager.remove_entity_from_list(self)
-		queue_free()
+		#queue_free()
+		pass
 
 func _update_health(health_amount: int) -> void:
 	entity_health += health_amount
@@ -151,3 +154,8 @@ func _update_health(health_amount: int) -> void:
 		Global.gui_manager.update_health_UI(entity_health)
 	else:
 		%HealthBar.value = entity_health
+
+func update_entity_ray_collision_exception() -> void:
+	for entity in Global.schedule_manager.entities_list.values():
+		if entity != self && entity.entity_type != Entity.entity_types.PLAYER:
+			%LookForPlayerRayCast2D.add_exception(entity.get_node('CollisionDetection'))

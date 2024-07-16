@@ -11,3 +11,6 @@ entity_type = 1
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = ExtResource("2_ejlvv")
 animation = &"idle"
+
+[node name="LookForPlayerRayCast2D" parent="." index="3"]
+target_position = Vector2(130, 2.08165e-12)
