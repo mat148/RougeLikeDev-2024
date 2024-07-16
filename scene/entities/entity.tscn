@@ -42,7 +42,7 @@ unique_name_in_owner = true
 target_position = Vector2(50, 2.08165e-12)
 collide_with_areas = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CollisionDetection" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection"]
 shape = SubResource("RectangleShape2D_6cyuf")

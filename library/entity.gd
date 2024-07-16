@@ -42,8 +42,9 @@ func enemy_ai() -> void:
 	var entity_area = %LookForPlayerRayCast2D.get_collider()
 	var entity
 	
-	if entity_area && entity_area.name != 'TileMap':
-		entity = entity_area.get_parent()
+	if entity_area:
+		if entity_area.name != 'TileMap' && entity_area.name != 'entity_detection_area2D':
+			entity = entity_area.get_parent()
 	
 	#TODO last known player position isn't functioning as expected
 	#var vector2i = Vector2i(myvector2) / 32
@@ -140,7 +141,7 @@ func _turn_ended() -> void:
 	SignalManager.turn_ended.emit(self)
 	
 	if self.name != 'Player' && entity_health <= 0:
-		Global.schedule_manager.remove_entity_from_list(self)
+		#Global.schedule_manager.remove_entity_from_list(self)
 		queue_free()
 
 func _update_health(health_amount: int) -> void:

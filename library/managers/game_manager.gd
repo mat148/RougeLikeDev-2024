@@ -70,11 +70,13 @@ func _create_world() -> void:
 		else:
 			_tunnel_between(rooms.back().get_center(), new_room.get_center())
 		
-		_place_entities(new_room)
+		#_place_entities(new_room)
 		
 		rooms.append(new_room)
 	
-	#_place_entities(rooms[0])
+	Global.schedule_manager.next_entity_in_turn_order()
+	
+	_place_entities(rooms[3])
 	#print(Global.get_coord_from_sprite(Global.player))
 	#var enemy = Global.schedule_manager.entities_list[Global.schedule_manager.entities_list.keys()[1]]
 	##print(Global.get_coord_from_sprite(enemy))
