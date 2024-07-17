@@ -15,6 +15,7 @@ func add_entity_to_list(entity: Entity) -> void:
 	entities_list[entity.entity_id] = entity
 
 func next_entity_in_turn_order(previous_entity: Entity = null) -> void:
+	print('prev entity: ', previous_entity)
 	var previous_entity_index = -1
 	
 	if previous_entity != null:

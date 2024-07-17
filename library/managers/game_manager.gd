@@ -13,7 +13,7 @@ var astar_grid
 @export var map_height: int = 45
 
 @export_category("Rooms RNG")
-@export var max_rooms: int = 20
+@export var max_rooms: int = 2
 @export var room_max_size: int = 10
 @export var room_min_size: int = 6
 
@@ -73,15 +73,15 @@ func _create_world() -> void:
 		else:
 			_tunnel_between(rooms.back().get_center(), new_room.get_center())
 		
-		if new_room != player_in_room:
-			_place_entities(new_room)
+		#if new_room != player_in_room:
+			#_place_entities(new_room)
 		
 		rooms.append(new_room)
 	
+	_place_entities(rooms[0])
 	update_entities_ray_collision_exception()
-	Global.schedule_manager.next_entity_in_turn_order()
 	
-	#_place_entities(rooms[3])
+	Global.schedule_manager.next_entity_in_turn_order()
 	#print(Global.get_coord_from_sprite(Global.player))
 	#var enemy = Global.schedule_manager.entities_list[Global.schedule_manager.entities_list.keys()[1]]
 	##print(Global.get_coord_from_sprite(enemy))
@@ -142,7 +142,7 @@ func _create_pc() -> void:
 
 func _place_entities(room: Rect2i) -> void:
 	#var number_of_monsters: int = _rng.randi_range(0, max_monsters_per_room)
-	var number_of_monsters: int = 3
+	var number_of_monsters: int = 1
 	
 	for _i in number_of_monsters:
 		var x: int = _rng.randi_range(room.position.x + 1, room.end.x - 1)

@@ -30,10 +30,12 @@ func set_entity_class(new_entity_class: Class) -> void:
 #TODO figure out why enemies are taking two turns
 func turn_started(entity: Entity) -> void:
 	if self == entity:
-		#print('turn started: ', entity.name)
+		print('turn started: ', entity.name)
 		entity_can_move = true
 		if entity.entity_type != Entity.entity_types.PLAYER:
+			print(entity.name)
 			enemy_ai()
+			#_move(Vector2.DOWN)
 
 func enemy_ai() -> void:
 	%LookForPlayerRayCast2D.look_at(Global.player.global_position)
@@ -51,11 +53,11 @@ func enemy_ai() -> void:
 	#if last_known_player_position == Vector2i(position):
 		#last_known_player_position = null
 	#
-	#if last_known_player_position:
-		#path_to_player()
+	if last_known_player_position:
+		path_to_player()
 	
 	if entity && entity.entity_type == Entity.entity_types.PLAYER:
-		#last_known_player_position = Global.get_coord_from_sprite(Global.player)
+		last_known_player_position = Global.get_coord_from_sprite(Global.player)
 		path_to_player()
 	else:
 		_move(get_non_diagonal_direction())
@@ -77,8 +79,8 @@ func path_to_player() -> void:
 	var game_manager = Global.game_manager
 	var path = game_manager.find_path(
 		Global.get_coord_from_sprite(self),
-		#last_known_player_position
-		Global.get_coord_from_sprite(Global.player)
+		last_known_player_position
+		#Global.get_coord_from_sprite(Global.player)
 	)
 	
 	#print('Entity position: ', Global.get_coord_from_sprite(self))
@@ -94,27 +96,20 @@ func path_to_player() -> void:
 	
 	_move(direction)
 
-#on turn - enemy
-#if haven't spotted pc
-	#wander
-#spotted pc
-	#get within range
-		#brawler - close
-		#ranger - far
-	#attack
-
 func _move(direction: Vector2i) -> void:
 	entity_can_move = false
-	#print('moving: ', self.name)
+	print('moving: ', self.name)
 	var coord: Vector2i = Global.get_coord_from_sprite(self)
 	coord += direction
 
 	var new_coords: Vector2 = Global.get_position_from_coord(coord)
 	if _check_direction(direction):
-		tween = create_tween()
-		tween.tween_property(self, "position", new_coords, 0.1)
-		tween.connect("finished",Callable(self,"_turn_ended"))
-		tween.play()
+		#tween = create_tween()
+		#tween.tween_property(self, "position", new_coords, 0.1)
+		#tween.connect("finished",Callable(self,"_turn_ended"))
+		#tween.play()
+		position = new_coords
+		_turn_ended()
 	else: _turn_ended()
 
 func _check_direction(direction: Vector2) -> bool:
@@ -137,9 +132,9 @@ func _check_direction(direction: Vector2) -> bool:
 		return false
 
 func _turn_ended() -> void:
-	if tween:
-		tween.kill()
-	#print('turn end: ', self.name)
+	#if tween:
+		#tween.kill()
+	print('turn end: ', self.name)
 	SignalManager.turn_ended.emit(self)
 	
 	if self.name != 'Player' && entity_health <= 0:

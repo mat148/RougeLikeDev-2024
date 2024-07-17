@@ -17,6 +17,5 @@ func _check_entity_type(direction) -> void:
 func _on_entity_detection_area_2d_area_entered(area: Area2D) -> void:
 	var entity = area.get_parent()
 	if entity.name != 'Player':
-		#TODO add entities to order
 		Global.schedule_manager.add_entities_to_order(entity)
 		pass
