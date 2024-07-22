@@ -13,6 +13,8 @@ enum entity_attack_styles {CLOSE, FAR}
 
 @export var entity_class_base_attack: int = 1
 
+@export var entity_class_base_speed: int = 3
+
 func return_entity_class_attack_style() -> entity_attack_styles:
 	if entity_class_name == entity_classes.WARRIOR:
 		return entity_attack_styles.CLOSE
