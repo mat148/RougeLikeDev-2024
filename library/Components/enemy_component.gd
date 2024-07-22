@@ -29,11 +29,15 @@ func ai() -> void:
 		if entity:
 			#Found player
 			LogDuck.d("player found")
-			move_action.offset = Vector2.ZERO
-			var perform = await move_action.perform()
-			await Global.wait(0.3)
-			if !perform && !energy_component.check_energy_empty():
-				end_turn.emit()
+			var direction = Vector2.UP
+			var new_entity = move_action._check_direction(direction)
+			
+			if new_entity == null:
+				move_action.offset = direction
+				var perform = await move_action.perform()
+				await Global.wait(0.3)
+				if !perform && !energy_component.check_energy_empty():
+					end_turn.emit()
 			
 		else:
 			#No player, move random
