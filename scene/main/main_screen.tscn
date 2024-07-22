@@ -5,9 +5,9 @@
 [ext_resource type="Resource" uid="uid://ddi2yjbby6b70" path="res://Resources/Tiles/grass_1.tres" id="2_7r6b3"]
 [ext_resource type="Script" path="res://library/managers/input_manager.gd" id="2_hpwfp"]
 [ext_resource type="Resource" uid="uid://brnw16kcmttay" path="res://Resources/Tiles/Block.tres" id="2_laedv"]
-[ext_resource type="PackedScene" uid="uid://3dobyfj2iydl" path="res://scene/entities/pc.tscn" id="2_qfdqv"]
-[ext_resource type="PackedScene" uid="uid://j6fmfdn8fsma" path="res://scene/entities/goblin_enemy.tscn" id="3_eoai1"]
+[ext_resource type="PackedScene" uid="uid://wmlc25sn7mc2" path="res://scene/entities/pc.tscn" id="2_qfdqv"]
 [ext_resource type="Script" path="res://library/managers/schedule_manager.gd" id="4_si0lw"]
+[ext_resource type="PackedScene" uid="uid://c44pjx7x6ws0d" path="res://scene/entities/enemy_goblin.tscn" id="5_c8tki"]
 [ext_resource type="Script" path="res://library/managers/GUIManager.gd" id="8_5xqls"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tq3oe"]
@@ -5263,7 +5263,7 @@ tiles = {
 "grass_1": ExtResource("2_7r6b3")
 }
 pc_scene = ExtResource("2_qfdqv")
-goblin_scene = ExtResource("3_eoai1")
+goblin_scene = ExtResource("5_c8tki")
 game_container = NodePath("../../GameWorld")
 tile_map = NodePath("../../TileMap")
 

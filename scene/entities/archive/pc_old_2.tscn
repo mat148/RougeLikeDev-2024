@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://3dobyfj2iydl"]
+
+[ext_resource type="PackedScene" uid="uid://bmbncalojb2fa" path="res://scene/entities/entity.tscn" id="1_f07qe"]
+[ext_resource type="Script" path="res://library/pc.gd" id="1_rsyq3"]
+[ext_resource type="SpriteFrames" uid="uid://cpi4ehbd7pqku" path="res://animations/pc_animations.tres" id="3_n5fps"]
+[ext_resource type="Script" path="res://library/Components/input_component.gd" id="3_sn7w5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jkmjb"]
+radius = 247.348
+
+[node name="Pc" node_paths=PackedStringArray("input_component") instance=ExtResource("1_f07qe")]
+script = ExtResource("1_rsyq3")
+input_component = NodePath("InputComponent")
+
+[node name="Camera2D" type="Camera2D" parent="." index="0"]
+zoom = Vector2(3, 3)
+
+[node name="InputComponent" type="Node" parent="." index="1"]
+script = ExtResource("3_sn7w5")
+
+[node name="HealthBar" parent="." index="5"]
+visible = false
+
+[node name="AnimatedSprite2D" parent="." index="6"]
+sprite_frames = ExtResource("3_n5fps")
+animation = &"idle"
+
+[node name="entity_detection_area2D" type="Area2D" parent="." index="7"]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="entity_detection_area2D" index="0"]
+shape = SubResource("CircleShape2D_jkmjb")
+
+[node name="LookForPlayerRayCast2D" parent="." index="9"]
+visible = false
+enabled = false
+
+[connection signal="area_entered" from="entity_detection_area2D" to="." method="_on_entity_detection_area_2d_area_entered"]

@@ -1,33 +1,105 @@
-[gd_scene load_steps=5 format=3 uid="uid://3dobyfj2iydl"]
+[gd_scene load_steps=14 format=3 uid="uid://wmlc25sn7mc2"]
 
-[ext_resource type="PackedScene" uid="uid://bmbncalojb2fa" path="res://scene/entities/entity.tscn" id="1_f07qe"]
-[ext_resource type="Script" path="res://scene/entities/pc.gd" id="1_rsyq3"]
-[ext_resource type="SpriteFrames" uid="uid://cpi4ehbd7pqku" path="res://animations/pc_animations.tres" id="3_n5fps"]
+[ext_resource type="Script" path="res://library/pc.gd" id="1_j1dav"]
+[ext_resource type="Script" path="res://library/Components/health_component.gd" id="2_msoh5"]
+[ext_resource type="Script" path="res://library/Components/class_component.gd" id="3_4l4nj"]
+[ext_resource type="Script" path="res://library/Components/input_component.gd" id="3_sn7w5"]
+[ext_resource type="Resource" uid="uid://p4m6gu30ob2n" path="res://Resources/Warrior.tres" id="4_ntty6"]
+[ext_resource type="Script" path="res://library/Components/energy_component.gd" id="5_gujtm"]
+[ext_resource type="Script" path="res://library/Components/Actions/MoveAction.gd" id="7_1e1s7"]
+[ext_resource type="Script" path="res://library/Components/Actions/attack_action.gd" id="8_api3s"]
+[ext_resource type="SpriteFrames" uid="uid://cpi4ehbd7pqku" path="res://animations/pc_animations.tres" id="8_deewq"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_jkmjb"]
-radius = 247.348
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xbmb5"]
+bg_color = Color(1, 1, 1, 1)
 
-[node name="Pc" instance=ExtResource("1_f07qe")]
-script = ExtResource("1_rsyq3")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bffad"]
+bg_color = Color(0.968627, 0, 0, 1)
 
-[node name="Camera2D" type="Camera2D" parent="." index="0"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_1w1dj"]
+radius = 247.35
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6cyuf"]
+size = Vector2(16, 16)
+
+[node name="Player" type="Node2D" node_paths=PackedStringArray("input_component", "attack_action", "energy_component", "health_component", "move_action")]
+script = ExtResource("1_j1dav")
+input_component = NodePath("InputComponent")
+attack_action = NodePath("AttackAction")
+energy_component = NodePath("EnergyComponent")
+health_component = NodePath("HealthComponent")
+move_action = NodePath("MoveAction")
+
+[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("health_bar")]
+script = ExtResource("2_msoh5")
+health_bar = NodePath("../HealthBar")
+
+[node name="ClassComponent" type="Node" parent="." node_paths=PackedStringArray("energy_component", "health_component", "attack_action")]
+script = ExtResource("3_4l4nj")
+entity_class = ExtResource("4_ntty6")
+energy_component = NodePath("../EnergyComponent")
+health_component = NodePath("../HealthComponent")
+attack_action = NodePath("../AttackAction")
+
+[node name="EnergyComponent" type="Node" parent="."]
+script = ExtResource("5_gujtm")
+
+[node name="InputComponent" type="Node" parent="." node_paths=PackedStringArray("move_action", "attack_action", "energy_component")]
+script = ExtResource("3_sn7w5")
+move_action = NodePath("../MoveAction")
+attack_action = NodePath("../AttackAction")
+energy_component = NodePath("../EnergyComponent")
+
+[node name="MoveAction" type="Node" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("7_1e1s7")
+entity = NodePath("..")
+cost = 100
+
+[node name="AttackAction" type="Node" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("8_api3s")
+entity = NodePath("..")
+cost = 100
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -8.0
+offset_top = -15.0
+offset_right = 8.0
+offset_bottom = -11.0
+theme_override_styles/background = SubResource("StyleBoxFlat_xbmb5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bffad")
+max_value = 10.0
+step = 1.0
+value = 8.0
+show_percentage = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 
-[node name="HealthBar" parent="." index="1"]
-visible = false
-
-[node name="AnimatedSprite2D" parent="." index="2"]
-sprite_frames = ExtResource("3_n5fps")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("8_deewq")
 animation = &"idle"
+autoplay = "idle"
 
-[node name="LookForPlayerRayCast2D" parent="." index="4"]
-visible = false
-enabled = false
-
-[node name="entity_detection_area2D" type="Area2D" parent="." index="6"]
+[node name="MoveCheckRayCast2D" type="RayCast2D" parent="."]
 unique_name_in_owner = true
+target_position = Vector2(2.08165e-12, 2.08165e-12)
+collide_with_areas = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="entity_detection_area2D" index="0"]
-shape = SubResource("CircleShape2D_jkmjb")
+[node name="LookForPlayerRayCast2D" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+visible = false
+target_position = Vector2(50, 2.08165e-12)
+collide_with_areas = true
 
-[connection signal="area_entered" from="entity_detection_area2D" to="." method="_on_entity_detection_area_2d_area_entered"]
+[node name="EntityDetectionArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntityDetectionArea2D"]
+shape = SubResource("CircleShape2D_1w1dj")
+
+[node name="CollisionDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection"]
+shape = SubResource("RectangleShape2D_6cyuf")
+
+[connection signal="area_entered" from="EntityDetectionArea2D" to="." method="_on_entity_detection_area_2d_area_entered"]

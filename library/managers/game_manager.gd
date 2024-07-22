@@ -13,12 +13,12 @@ var astar_grid
 @export var map_height: int = 45
 
 @export_category("Rooms RNG")
-@export var max_rooms: int = 2
+@export var max_rooms: int = 30
 @export var room_max_size: int = 10
 @export var room_min_size: int = 6
 
 @export_category("Monsters RNG")
-@export var max_monsters_per_room = 2
+@export var max_monsters_per_room = 1
 
 var _rng := RandomNumberGenerator.new()
 
@@ -30,6 +30,27 @@ func _ready() -> void:
 	_setup_astar()
 	_create_pc()
 	_setup_tiles()
+	
+	#TODO need to figure out how to wait for the world to generate
+	await Global.wait(1)
+	Global.schedule_manager.player_turn_start()
+
+#func _physics_process(_delta: float) -> void:
+	#var action = await Global.input_manager.get_action(Global.player)
+	#if action:
+		#var previous_player_position: Vector2i = player.grid_position
+		#if action.perform():
+			#_handle_enemy_turns()
+			#map.update_fov(player.grid_position)
+
+@export var actors = []
+var current_actor = 0
+
+#func _process(delta: float) -> void:
+	#if actors:
+		#actors[current_actor].update()
+		#await actors[current_actor].complete
+		#current_actor = (current_actor + 1) % actors.size()
 
 func _setup_astar() -> void:
 	astar_grid = AStarGrid2D.new()
@@ -81,7 +102,7 @@ func _create_world() -> void:
 	_place_entities(rooms[0])
 	update_entities_ray_collision_exception()
 	
-	Global.schedule_manager.next_entity_in_turn_order()
+	#Global.schedule_manager.next_entity_in_turn_order()
 	#print(Global.get_coord_from_sprite(Global.player))
 	#var enemy = Global.schedule_manager.entities_list[Global.schedule_manager.entities_list.keys()[1]]
 	##print(Global.get_coord_from_sprite(enemy))
@@ -124,11 +145,12 @@ func _create_pc() -> void:
 	pc.name = 'Player'
 	pc.entity_type = Entity.entity_types.PLAYER
 	#pc.position = Global.get_position_from_coord(Vector2i(3, 1))
-	pc.set_entity_class(load('Resources/Warrior.tres'))
+	#pc.set_entity_class(load('Resources/Warrior.tres'))
 	game_container.add_child(pc)
+	actors.append(pc)
 	Global.player = pc
 	SignalManager.entity_created.emit(pc)
-	Global.schedule_manager.entities_order.append(pc)
+	#Global.schedule_manager.entities_order.append(pc)
 	
 	#for x in 20:
 		#var entity: Entity = goblin_scene.instantiate()
@@ -169,22 +191,22 @@ func _place_entities(room: Rect2i) -> void:
 			##else:
 				##new_entity = Entity.new(new_entity_position, Entity.entity_types.ENEMY, load('Resources/Brawler.tres'))
 			#
-			new_entity.set_entity_class(load('Resources/Warrior.tres'))
+			#new_entity.set_entity_class(load('Resources/Warrior.tres'))
 			new_entity.name = 'Enemy'
 			new_entity.entity_type = Entity.entity_types.ENEMY
 			new_entity.position = Global.get_position_from_coord(new_entity_position)
-			
+			actors.append(new_entity)
 			game_container.add_child(new_entity)
 			SignalManager.entity_created.emit(new_entity)
 
 func find_path(position_a: Vector2, position_b: Vector2) -> Array[Vector2i]:
 	var path = astar_grid.get_id_path(position_a, position_b)
-	
 	return path
 
 func update_entities_ray_collision_exception() -> void:
 	for current_entity in Global.schedule_manager.entities_list.values():
-		current_entity.update_entity_ray_collision_exception()
+		if current_entity.entity_type != Entity.entity_types.PLAYER:
+			current_entity.update_entity_ray_collision_exception()
 
 #print(Global.get_coord_from_sprite(Global.player))
 #var enemy = Global.schedule_manager.entities_list[Global.schedule_manager.entities_list.keys()[1]]

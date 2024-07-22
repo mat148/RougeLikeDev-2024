@@ -1,13 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://bmbncalojb2fa"]
+[gd_scene load_steps=13 format=3 uid="uid://c44pjx7x6ws0d"]
 
-[ext_resource type="Script" path="res://library/entity.gd" id="1_43xsu"]
-[ext_resource type="Script" path="res://library/Components/health_component.gd" id="2_4abcx"]
-[ext_resource type="Script" path="res://library/Components/energy_component.gd" id="2_88qho"]
-[ext_resource type="Script" path="res://library/Components/class_component.gd" id="4_c6j3n"]
-[ext_resource type="Resource" uid="uid://p4m6gu30ob2n" path="res://Resources/Warrior.tres" id="5_l1r51"]
-[ext_resource type="Script" path="res://library/Components/Actions/MoveAction.gd" id="6_mk7s0"]
-[ext_resource type="Script" path="res://library/Components/enemy_component.gd" id="7_5ex6f"]
-[ext_resource type="Script" path="res://library/Components/Actions/attack_action.gd" id="8_nrx27"]
+[ext_resource type="Script" path="res://library/enemy_goblin.gd" id="1_ng45b"]
+[ext_resource type="Script" path="res://library/Components/health_component.gd" id="2_iigxd"]
+[ext_resource type="Script" path="res://library/Components/class_component.gd" id="3_6t28v"]
+[ext_resource type="Resource" uid="uid://p4m6gu30ob2n" path="res://Resources/Warrior.tres" id="4_tmvfy"]
+[ext_resource type="Script" path="res://library/Components/energy_component.gd" id="5_57b3s"]
+[ext_resource type="Script" path="res://library/Components/Actions/MoveAction.gd" id="6_jl7d0"]
+[ext_resource type="Script" path="res://library/Components/enemy_component.gd" id="7_3glqx"]
+[ext_resource type="SpriteFrames" uid="uid://qh02nsxpnseo" path="res://animations/goblin_enemy_animations.tres" id="8_24k0k"]
+[ext_resource type="Script" path="res://library/Components/Actions/attack_action.gd" id="8_f8rbb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ony2l"]
 bg_color = Color(1, 1, 1, 1)
@@ -18,38 +19,41 @@ bg_color = Color(0.968627, 0, 0, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6cyuf"]
 size = Vector2(16, 16)
 
-[node name="Entity" type="Node2D" node_paths=PackedStringArray("energy_component", "health_component", "move_action")]
-script = ExtResource("1_43xsu")
+[node name="Goblin" type="Node2D" node_paths=PackedStringArray("enemy_component", "attack_action", "energy_component", "health_component", "move_action")]
+script = ExtResource("1_ng45b")
+enemy_component = NodePath("EnemyComponent")
+attack_action = NodePath("AttackAction")
 energy_component = NodePath("EnergyComponent")
 health_component = NodePath("HealthComponent")
 move_action = NodePath("MoveAction")
 entity_type = 1
 
-[node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("2_4abcx")
+[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("health_bar")]
+script = ExtResource("2_iigxd")
+health_bar = NodePath("../HealthBar")
 
 [node name="ClassComponent" type="Node" parent="." node_paths=PackedStringArray("energy_component", "health_component", "attack_action")]
-script = ExtResource("4_c6j3n")
-entity_class = ExtResource("5_l1r51")
+script = ExtResource("3_6t28v")
+entity_class = ExtResource("4_tmvfy")
 energy_component = NodePath("../EnergyComponent")
 health_component = NodePath("../HealthComponent")
 attack_action = NodePath("../AttackAction")
 
 [node name="EnergyComponent" type="Node" parent="."]
-script = ExtResource("2_88qho")
+script = ExtResource("5_57b3s")
 
 [node name="EnemyComponent" type="Node" parent="." node_paths=PackedStringArray("move_action", "energy_component")]
-script = ExtResource("7_5ex6f")
+script = ExtResource("7_3glqx")
 move_action = NodePath("../MoveAction")
 energy_component = NodePath("../EnergyComponent")
 
 [node name="MoveAction" type="Node" parent="." node_paths=PackedStringArray("entity")]
-script = ExtResource("6_mk7s0")
+script = ExtResource("6_jl7d0")
 entity = NodePath("..")
 cost = 100
 
 [node name="AttackAction" type="Node" parent="." node_paths=PackedStringArray("entity")]
-script = ExtResource("8_nrx27")
+script = ExtResource("8_f8rbb")
 entity = NodePath("..")
 cost = 100
 
@@ -65,13 +69,14 @@ offset_bottom = -11.0
 grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_ony2l")
 theme_override_styles/fill = SubResource("StyleBoxFlat_4uva7")
-max_value = 10.0
+max_value = 3.0
 step = 1.0
-value = 8.0
+value = 2.0
 show_percentage = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-animation = &""
+sprite_frames = ExtResource("8_24k0k")
+animation = &"idle"
 autoplay = "idle"
 
 [node name="MoveCheckRayCast2D" type="RayCast2D" parent="."]

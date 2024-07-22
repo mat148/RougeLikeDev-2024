@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://clnf86k0gqe6u"]
 
-[ext_resource type="Script" path="res://scene/entities/pc.gd" id="1_rsyq3"]
+[ext_resource type="Script" path="res://library/pc.gd" id="1_rsyq3"]
 [ext_resource type="Texture2D" uid="uid://md0mt4l40bog" path="res://assets/Characters/Human/IDLE/base_idle_strip1.png" id="2_4gvaf"]
 [ext_resource type="Texture2D" uid="uid://daivtbnupsj7" path="res://assets/Characters/Human/IDLE/base_idle_strip2.png" id="3_5lva3"]
 [ext_resource type="Texture2D" uid="uid://bwrd77dpva1w6" path="res://assets/Characters/Human/IDLE/base_idle_strip3.png" id="4_mb5l8"]
