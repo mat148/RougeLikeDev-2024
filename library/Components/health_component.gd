@@ -19,7 +19,6 @@ func add_health(health: int) -> void:
 		health_bar.value = entity_heath
 
 func remove_health(health: int) -> void:
-	LogDuck.w(entity_heath, health)
 	entity_heath -= health
 	
 	if health_bar:

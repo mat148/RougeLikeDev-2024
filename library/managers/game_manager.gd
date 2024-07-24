@@ -18,7 +18,7 @@ var astar_grid
 @export var room_min_size: int = 6
 
 @export_category("Monsters RNG")
-@export var max_monsters_per_room = 1
+@export var max_monsters_per_room = 3
 
 var _rng := RandomNumberGenerator.new()
 
@@ -94,12 +94,12 @@ func _create_world() -> void:
 		else:
 			_tunnel_between(rooms.back().get_center(), new_room.get_center())
 		
-		#if new_room != player_in_room:
-			#_place_entities(new_room)
+		if new_room != player_in_room:
+			_place_entities(new_room)
 		
 		rooms.append(new_room)
 	
-	_place_entities(rooms[0])
+	#_place_entities(rooms[0])
 	update_entities_ray_collision_exception()
 	
 	#Global.schedule_manager.next_entity_in_turn_order()

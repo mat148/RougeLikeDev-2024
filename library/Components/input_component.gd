@@ -32,13 +32,14 @@ func after_input(direction: Vector2) -> void:
 			turn_end.emit()
 	else:
 		#Object in the way
-		if new_entity.entity_type == Entity.entity_types.ENEMY:
-			attack_action.offset = direction
-			attack_action.target = new_entity
-			var perform = await attack_action.perform()
-			
-			if !perform && !energy_component.check_energy_empty():
-				turn_end.emit()
+		if new_entity.name != 'TileMap':
+			if new_entity.entity_type == Entity.entity_types.ENEMY:
+				attack_action.offset = direction
+				attack_action.target = new_entity
+				var perform = await attack_action.perform()
+				
+				if !perform && !energy_component.check_energy_empty():
+					turn_end.emit()
 
 #func get_action() -> Action:
 	#return Action

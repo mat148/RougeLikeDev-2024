@@ -42,9 +42,10 @@ attack_action = NodePath("../AttackAction")
 [node name="EnergyComponent" type="Node" parent="."]
 script = ExtResource("5_57b3s")
 
-[node name="EnemyComponent" type="Node" parent="." node_paths=PackedStringArray("move_action", "energy_component")]
+[node name="EnemyComponent" type="Node" parent="." node_paths=PackedStringArray("move_action", "attack_action", "energy_component")]
 script = ExtResource("7_3glqx")
 move_action = NodePath("../MoveAction")
+attack_action = NodePath("../AttackAction")
 energy_component = NodePath("../EnergyComponent")
 
 [node name="MoveAction" type="Node" parent="." node_paths=PackedStringArray("entity")]
