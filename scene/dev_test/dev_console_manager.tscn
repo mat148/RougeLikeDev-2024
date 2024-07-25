@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4vtqncqm6nf7"]
+
+[ext_resource type="Script" path="res://library/managers/Dev Console.gd" id="1_rhuyc"]
+
+[node name="DevConsoleManager" type="Node"]
+script = ExtResource("1_rhuyc")

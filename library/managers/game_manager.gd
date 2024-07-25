@@ -13,7 +13,7 @@ var astar_grid
 @export var map_height: int = 45
 
 @export_category("Rooms RNG")
-@export var max_rooms: int = 30
+@export var max_rooms: int = 1
 @export var room_max_size: int = 10
 @export var room_min_size: int = 6
 
@@ -27,9 +27,20 @@ var rooms: Array[Rect2i] = []
 
 func _ready() -> void:
 	_rng.randomize()
-	_setup_astar()
-	_create_pc()
-	_setup_tiles()
+	generate_world()
+
+func clear_world() -> void:
+	await Global.schedule_manager.reset_schedule_manager()
+	rooms.clear()
+	tile_map.clear()
+	for child in game_container.get_children():
+		child.queue_free()
+
+func generate_world() -> void:
+	await clear_world()
+	await _setup_astar()
+	await _create_pc()
+	await _setup_tiles()
 	
 	#TODO need to figure out how to wait for the world to generate
 	await Global.wait(1)
@@ -42,6 +53,10 @@ func _ready() -> void:
 		#if action.perform():
 			#_handle_enemy_turns()
 			#map.update_fov(player.grid_position)
+
+func spawn_monster(spawn_location: Vector2) -> void:
+	LogDuck.d(spawn_location)
+	spawn_entity(spawn_location)
 
 @export var actors = []
 var current_actor = 0
@@ -91,6 +106,7 @@ func _create_world() -> void:
 		if rooms.is_empty():
 			player_in_room = new_room
 			Global.player.position = Global.get_position_from_coord(new_room.get_center())
+			LogDuck.w(new_room, Global.player.position)
 		else:
 			_tunnel_between(rooms.back().get_center(), new_room.get_center())
 		
@@ -147,7 +163,7 @@ func _create_pc() -> void:
 	#pc.position = Global.get_position_from_coord(Vector2i(3, 1))
 	#pc.set_entity_class(load('Resources/Warrior.tres'))
 	game_container.add_child(pc)
-	actors.append(pc)
+	#actors.append(pc)
 	Global.player = pc
 	SignalManager.entity_created.emit(pc)
 	#Global.schedule_manager.entities_order.append(pc)
@@ -171,33 +187,23 @@ func _place_entities(room: Rect2i) -> void:
 		var y: int = _rng.randi_range(room.position.y + 1, room.end.y - 1)
 		var new_entity_position := Vector2(x, y)
 		
-		var can_place = true
-		for entity in Global.schedule_manager.entities_list.values():
-			if entity.position == new_entity_position:
-				can_place = false
-				break
-		
-		if can_place:
-			var new_entity = goblin_scene.instantiate()
-			##if _rng.randf() < 0.8:
-				###new_entity = Entity.new(new_entity_position, Entity.entity_types.ENEMY, load('Resources/Brawler.tres'))
-				##new_entity.name = 'Enemy'
-				##new_entity.entity_type = Entity.entity_types.ENEMY
-				##new_entity.position = Global.get_position_from_coord(new_entity_position)
-				##
-				##game_container.add_child(new_entity)
-				##SignalManager.entity_created.emit(new_entity)
-				##
-			##else:
-				##new_entity = Entity.new(new_entity_position, Entity.entity_types.ENEMY, load('Resources/Brawler.tres'))
-			#
-			#new_entity.set_entity_class(load('Resources/Warrior.tres'))
-			new_entity.name = 'Enemy'
-			new_entity.entity_type = Entity.entity_types.ENEMY
-			new_entity.position = Global.get_position_from_coord(new_entity_position)
-			actors.append(new_entity)
-			game_container.add_child(new_entity)
-			SignalManager.entity_created.emit(new_entity)
+		spawn_entity(new_entity_position)
+
+func spawn_entity(new_entity_position: Vector2) -> void:
+	var can_place = true
+	LogDuck.d(Global.schedule_manager.entities_list)
+	for entity in Global.schedule_manager.entities_list.values():
+		if entity.position == new_entity_position:
+			can_place = false
+			break
+	
+	if can_place:
+		var new_entity = goblin_scene.instantiate()
+		new_entity.name = 'Enemy'
+		new_entity.entity_type = Entity.entity_types.ENEMY
+		new_entity.position = Global.get_position_from_coord(new_entity_position)
+		game_container.add_child(new_entity)
+		SignalManager.entity_created.emit(new_entity)
 
 func find_path(position_a: Vector2, position_b: Vector2) -> Array[Vector2i]:
 	var path = astar_grid.get_id_path(position_a, position_b)

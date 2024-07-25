@@ -15,22 +15,26 @@ func perform() -> bool:
 			coord += offset
 			var new_coords: Vector2 = Global.get_position_from_coord(coord)
 			
-			#if _check_direction(offset):
-				#tween = create_tween()
-				#tween.tween_property(entity, "position", new_coords, 0.03)
-				#await tween.finished
-				#tween.connect("finished",Callable(self,"_turn_ended"))
-				#tween.play()
-			#TODO Remove previous location from aStart and add current location
 			Global.game_manager.astar_grid.set_point_solid(entity.position, 0)
-			Global.game_manager.tile_map.set_cell(0, Global.get_position_from_coord(entity.position), 0, Vector2(31,3), 0)
+			Global.game_manager.tile_map.set_cell(1, Global.get_coord_from_sprite(entity), 0, Vector2(-1, -1), 0)
 			
-			entity.position = new_coords
-			Global.game_manager.astar_grid.set_point_solid(new_coords, 1)
-			Global.game_manager.tile_map.set_cell(0, new_coords, 0, Vector2(31,3), 0)
+			#if _check_direction(offset):
+			tween = create_tween()
+			tween.tween_property(entity, "position", new_coords, 0.03)
+			await tween.finished
+			#tween.connect("finished",Callable(self,"_turn_ended"))
+			#tween.play()
+			
+			LogDuck.w("Tween finished", tween.is_running())
+			#TODO Remove previous location from aStart and add current location
+			
+			#entity.position = new_coords
+			Global.game_manager.astar_grid.set_point_solid(entity.position, 1)
+			Global.game_manager.tile_map.set_cell(1, Global.get_coord_from_sprite(entity), 0, Vector2(32, 3), 0)
+			#Global.game_manager.tile_map.set_cell(0, Global.get_coord_from_sprite(entity), 0, Vector2(32,3), 0)
 			entity.energy_component.remove_energy(cost)
 			
-			LogDuck.d(entity.name, offset)
+			LogDuck.d(entity.name, entity.position)
 			if entity.energy_component.check_energy_empty():
 				#Still have enough energy
 				return true

@@ -1,5 +1,7 @@
 extends Node
 
+signal dev_console()
+
 signal entity_created(entity: Entity)
 signal player_move(direction: Vector2)
 
