@@ -1,18 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://he4j28cxujfv"]
+[gd_scene load_steps=13 format=3 uid="uid://clddgs6x6schj"]
 
-[ext_resource type="Texture2D" uid="uid://d2cyjk0y1f6wl" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_brotu"]
-[ext_resource type="Script" path="res://library/managers/game_manager.gd" id="1_newlm"]
-[ext_resource type="Resource" uid="uid://ddi2yjbby6b70" path="res://Resources/Tiles/grass_1.tres" id="2_7r6b3"]
-[ext_resource type="Script" path="res://library/managers/input_manager.gd" id="2_hpwfp"]
-[ext_resource type="Resource" uid="uid://brnw16kcmttay" path="res://Resources/Tiles/Block.tres" id="2_laedv"]
-[ext_resource type="PackedScene" uid="uid://wmlc25sn7mc2" path="res://scene/entities/pc.tscn" id="2_qfdqv"]
-[ext_resource type="Script" path="res://library/managers/Dev Console.gd" id="2_xjvc0"]
-[ext_resource type="Script" path="res://library/managers/schedule_manager.gd" id="4_si0lw"]
-[ext_resource type="PackedScene" uid="uid://c44pjx7x6ws0d" path="res://scene/entities/enemy_goblin.tscn" id="5_c8tki"]
-[ext_resource type="Script" path="res://library/managers/GUIManager.gd" id="8_5xqls"]
+[ext_resource type="Script" path="res://library/managers/game_manager.gd" id="1_p43lp"]
+[ext_resource type="PackedScene" uid="uid://cp7egbmd6dco7" path="res://scene/dev_test/dev_console_gui.tscn" id="1_rxxdu"]
+[ext_resource type="Resource" uid="uid://brnw16kcmttay" path="res://Resources/Tiles/Block.tres" id="2_2g4x2"]
+[ext_resource type="Resource" uid="uid://ddi2yjbby6b70" path="res://Resources/Tiles/grass_1.tres" id="3_ivy3g"]
+[ext_resource type="PackedScene" uid="uid://wmlc25sn7mc2" path="res://scene/entities/pc.tscn" id="4_ebj7n"]
+[ext_resource type="PackedScene" uid="uid://c44pjx7x6ws0d" path="res://scene/entities/enemy_goblin.tscn" id="5_rk8o5"]
+[ext_resource type="Script" path="res://library/managers/input_manager.gd" id="6_r8qub"]
+[ext_resource type="Script" path="res://library/managers/schedule_manager.gd" id="7_qxji8"]
+[ext_resource type="Script" path="res://library/managers/GUIManager.gd" id="8_ly0re"]
+[ext_resource type="Texture2D" uid="uid://d2cyjk0y1f6wl" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="9_i4gia"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tq3oe"]
-texture = ExtResource("1_brotu")
+texture = ExtResource("9_i4gia")
 12:0/0 = 0
 12:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 12:0/0/physics_layer_0/angular_velocity = 0.0
@@ -5254,66 +5254,34 @@ offset_bottom = 23.0
 theme_override_font_sizes/font_size = 32
 text = "test"
 
-[node name="DevConsole" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("dev_console_gui", "line_edit")]
-process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("2_xjvc0")
-dev_console_gui = NodePath("dev_console")
-line_edit = NodePath("dev_console/LineEdit")
-
-[node name="dev_console" type="Control" parent="CanvasLayer/DevConsole"]
-process_mode = 2
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/DevConsole/dev_console"]
+[node name="dev_console" parent="CanvasLayer" instance=ExtResource("1_rxxdu")]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 24
 
 [node name="Managers" type="Node" parent="."]
 
 [node name="GameManager" type="Node" parent="Managers" node_paths=PackedStringArray("game_container", "tile_map")]
 unique_name_in_owner = true
-script = ExtResource("1_newlm")
+script = ExtResource("1_p43lp")
 tiles = {
-"block": ExtResource("2_laedv"),
-"grass_1": ExtResource("2_7r6b3")
+"block": ExtResource("2_2g4x2"),
+"grass_1": ExtResource("3_ivy3g")
 }
-pc_scene = ExtResource("2_qfdqv")
-goblin_scene = ExtResource("5_c8tki")
+pc_scene = ExtResource("4_ebj7n")
+goblin_scene = ExtResource("5_rk8o5")
 game_container = NodePath("../../GameWorld")
 tile_map = NodePath("../../TileMap")
 
 [node name="InputManager" type="Node" parent="Managers"]
 unique_name_in_owner = true
-script = ExtResource("2_hpwfp")
+script = ExtResource("6_r8qub")
 
 [node name="ScheduleManager" type="Node" parent="Managers"]
 unique_name_in_owner = true
-script = ExtResource("4_si0lw")
+script = ExtResource("7_qxji8")
 
-[node name="GUIManager" type="Node" parent="Managers" node_paths=PackedStringArray("devConsoleUI", "healthUI")]
+[node name="GUIManager" type="Node" parent="Managers" node_paths=PackedStringArray("healthUI")]
 unique_name_in_owner = true
-script = ExtResource("8_5xqls")
-devConsoleUI = NodePath("../../CanvasLayer/DevConsole/dev_console")
+script = ExtResource("8_ly0re")
 healthUI = NodePath("../../CanvasLayer/healthUI")
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -5324,5 +5292,4 @@ layer_1/navigation_enabled = false
 layer_1/tile_data = PackedInt32Array()
 
 [node name="GameWorld" type="Node2D" parent="."]
-
-[connection signal="text_submitted" from="CanvasLayer/DevConsole/dev_console/LineEdit" to="CanvasLayer/DevConsole" method="_on_line_edit_text_submitted"]
+unique_name_in_owner = true

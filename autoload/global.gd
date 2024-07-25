@@ -35,3 +35,11 @@ func get_coord_from_sprite(entity_ref: Entity) -> Vector2i:
 	var new_x: int = floor((entity_ref.position.x) / STEP_X)
 	var new_y: int = floor((entity_ref.position.y) / STEP_Y)
 	return Vector2(new_x, new_y)
+
+func get_coord_from_coord(coord: Vector2i) -> Vector2:
+	var new_x: int = floor((coord.x) / STEP_X)
+	var new_y: int = floor((coord.y) / STEP_Y)
+	return Vector2(new_x, new_y)
+
+func vector2_to_vector2i(vector: Vector2) -> Vector2i:
+	return Vector2i(vector) / 32

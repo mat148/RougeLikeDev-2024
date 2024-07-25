@@ -9,6 +9,11 @@ func _init() -> void:
 	SignalManager.entity_created.connect(add_entity_to_list)
 	#SignalManager.turn_ended.connect(next_entity_in_turn_order)
 
+func reset_schedule_manager() -> void:
+	entities_list.clear()
+	entities_order.clear()
+	entity_order_index = 0
+
 func add_entity_to_list(entity: Entity) -> void:
 	#if entity.entity_type == Entity.entity_types.PLAYER:
 		#current_entity_turn = entity.entity_id

@@ -8,3 +8,4 @@ entity_class_name = 0
 entity_class_base_health = 3
 entity_class_attack_style = 0
 entity_class_base_attack = 1
+entity_class_base_speed = 1

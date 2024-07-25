@@ -12,13 +12,13 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_action_just_pressed("skip_turn"):
 			after_input(Vector2.ZERO)
-		if Input.is_action_just_pressed("move_left"):
+		if Input.is_action_pressed("move_left"):
 			after_input(Vector2.LEFT)
-		if Input.is_action_just_pressed("move_right"):
+		if Input.is_action_pressed("move_right"):
 			after_input(Vector2.RIGHT)
-		if Input.is_action_just_pressed("move_up"):
+		if Input.is_action_pressed("move_up"):
 			after_input(Vector2.UP)
-		if Input.is_action_just_pressed("move_down"):
+		if Input.is_action_pressed("move_down"):
 			after_input(Vector2.DOWN)
 
 func after_input(direction: Vector2) -> void:
@@ -32,13 +32,14 @@ func after_input(direction: Vector2) -> void:
 			turn_end.emit()
 	else:
 		#Object in the way
-		if new_entity.entity_type == Entity.entity_types.ENEMY:
-			attack_action.offset = direction
-			attack_action.target = new_entity
-			var perform = await attack_action.perform()
-			
-			if !perform && !energy_component.check_energy_empty():
-				turn_end.emit()
+		if new_entity.name != 'TileMap':
+			if new_entity.entity_type == Entity.entity_types.ENEMY:
+				attack_action.offset = direction
+				attack_action.target = new_entity
+				var perform = await attack_action.perform()
+				
+				if !perform && !energy_component.check_energy_empty():
+					turn_end.emit()
 
 #func get_action() -> Action:
 	#return Action

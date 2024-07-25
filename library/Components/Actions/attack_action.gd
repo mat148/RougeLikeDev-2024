@@ -14,6 +14,8 @@ var entity_attack: int = 0
 func set_base_attack(base_attack: int) -> void:
 	entity_attack = base_attack
 
+#TODO figure out why enemies attack when player is moving away.
+#Attack of oppourtunity
 func perform() -> bool:
 	if entity.entity_can_move:
 		if entity.energy_component.check_energy_action(self):
@@ -24,7 +26,7 @@ func perform() -> bool:
 			target.health_component.remove_health(entity.attack_action.entity_attack)
 			entity.energy_component.remove_energy(cost)
 			
-			LogDuck.d(entity.name, target.name)
+			LogDuck.w(entity.name, target.name)
 			if entity.energy_component.check_energy_empty():
 				#Still have enough energy
 				return true
